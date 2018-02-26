@@ -1,1 +1,124 @@
 语法
+字符串输出：
+${"Hello ${name}!"}/${"hello"+name+"!"}
+
+字符串截取：
+通过下标直接获取下标对应的字母：${name[2]}
+起点下标..结尾下标截取字符串：${name[0..5]}
+
+算数运算：
+<#assign a = 10>
+<#assign b = 5>
+${a+b} ${a-b} ${a*b} ${a/b} ${a%b}
+
+比较运算符：
+<#if a+b gte 12 || a-b lt 6>
+	${a*b}
+<#else>	
+	${a/b}
+</#if>
+
+内建函数：
+<#assign data = "abcd1234">
+第一个字母大写：${data?cap_first}
+所有字母小写：${data?lower_case}
+所有字母大写：${data?upper_case}
+<#assign floatData = 12.34>
+数值取整数:${floatData?int}
+获取集合的长度:${users?size}
+时间格式化:${dateTime?string("yyyy-MM-dd")}
+
+空判断和对象集合：
+<#if users??>
+<#list users as user>
+${user.id} - ${user.name}
+</#list>
+<#else>
+${user!"变量为空则给一个默认值"}
+</#if>
+Map集合：
+<#assign mapData={"name":"程序员"}>
+直接通过key获取value值：${mapData["name"]}
+通过key遍历Map：
+<#list mapData?keys as key>
+Key:${key} - Value:${mapData[key]}
+</#list>
+通过value遍历map:
+<#list mapData?values as value>
+Value:${value}
+</#list>
+
+List集合:
+<#assign listData=["ITGragon","blog","is","cool"]>
+<#list listData as value>${value}</#list>
+
+include指令：
+引入其他文件：<#include "otherFreeMarker.ftl"/>
+
+macro宏指令：
+<#macro mo>
+定义无参数的宏--${name}
+</#macro>
+使用宏macro：<@mo />
+<#macro moArgs a b c>
+定义带参数的宏macro--${a+b+c}
+</#macro>
+使用带参数的宏macro:<@moArgs a=1 b=2 c=3 />
+
+命名空间：
+<#import "otherFreeMarker.ftl" as otherFtl>
+${otherFtl.otherName}
+<@otherFtl.addMethod a=10 b=20 />
+<#assign otherName="修改otherFreeMarker.ftl中的otherName变量值"/>
+${otherFtl.otherName}
+<#assign otherName="修改otherFreeMarker.ftl中的otherName变量值" in otherFtl />
+${otherFtl.otherName}
+
+otherFreeMarker.ftl为了测试命名空间和include指令的FreeMarker文件
+其他FreeMarker文件
+<#macro addMethod a b>
+result:${a+b}
+</#macro>
+<#assign otherName="另外一个FreeMarker的变量">
+
+语法详解
+数据类型
+和java不同，FreeMarker不需要定义变量的类型，直接赋值即可。
+字符串： value = "xxxx" 。如果有特殊字符 string = r"xxxx" 。单引号和双引号是一样的。
+数值：value = 1.2。数值可以直接等于，但是不能用科学计数法。
+布尔值：true or false。
+List集合：list = [1,2,3] ; list=[1..100] 表示 1 到 100 的集合，反之亦然。
+Map集合：map = {"key" : "value" , "key2" : "value2"}，key 必须是字符串哦！
+实体类：和EL表达式差不多，直接点出来。
+
+字符串操作
+字符串连接：可以直接嵌套${"hello , ${name}"} ； 也可以用加号${"hello , " + name}
+
+字符串截取：string[index]。index 可以是一个值，也可以是形如 0..2 表示下标从0开始，到下标为2结束。一共是三个数。
+
+比较运算符
+== （等于），!= （不等于），gt（大于），gte（大于或者等于），lt（小于），lte（小于或者等于）。不建议用 >，< 可能会报错！
+一般和 if 配合使用
+
+内建函数
+FreeMarker 提供了一些内建函数来转换输出，其结构：变量?内建函数，这样就可以通过内建函数来转换输出变量。
+html： 对字符串进行HTML编码；
+cap_first： 使字符串第一个字母大写；
+lower_case： 将字符串转成小写；
+upper_case： 将字符串转成大写；
+size： 获得集合中元素的个数；
+int： 取得数字的整数部分。
+
+变量空判断
+! 　　指定缺失变量的默认值；一般配置变量输出使用
+?? 　判断变量是否存在。一般配合if使用 <#if value??></#if>
+
+宏指令
+可以理解为java的封装方法，供其他地方使用。宏指令也称为自定义指令，macro指令
+语法很简单：<#macro val > 声明macro </#macro>; 使用macro <@val />
+
+命名空间
+可以理解为java的import语句，为避免变量重复。一个重要的规则就是:路径不应该包含大写字母，使用下划线_分隔词语，myName --> my_name
+语法很简单：<#import "xxx.ftl" as val>
+
+其他没有说明的语法是因为和java一样，没什么特别之处。所以没有列出来。
