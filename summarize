@@ -1,2 +1,7 @@
 总结：
-1.
+1.FreeMarker是一块模板引擎，可以生成XML，HTML，JAVA等文件
+2.FreeMarker文件提供占位符，java提供数据，通过FreeMarker模板引擎生成有数据的页面，可以将数据放在Map中，也可以用setter/getter方法
+3.FreeMarker语法中字符串的显示特殊字符，截取的操作。
+4.空判断
+5.宏概念，命名空间，引入文件，给变量赋值，集合的遍历等
+6.整合SpringMVC
