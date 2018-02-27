@@ -55,7 +55,9 @@ spring.freemarker.view-names= # White list of view names that can be resolved.
 
 controller跳转页面如下：
 templates/action/list.html页面
-
-
+@RequestMapping(value="/list", method=RequestMethod.GET)
+public String publicSpace(Model model, HttpServletRequest request) {
+	return "action/list";
+}
 
 
